@@ -1,10 +1,10 @@
 FROM mhart/alpine-node:11 AS builder
 WORKDIR /app
 COPY . .
-RUN yarn run build
+RUN npm run build
 
 FROM mhart/alpine-node
-RUN yarn global add serve
+RUN npm install --save serve
 WORKDIR /app
 COPY --from=builder /app/build .
 CMD ["serve", "-p", "80", "-s", "."]
