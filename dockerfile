@@ -1,20 +1,10 @@
-FROM node:10
-
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-
-WORKDIR /home/node/app
-
-COPY package*.json ./
-
-RUN npm install
-
+FROM mhart/alpine-node:11 AS builder
+WORKDIR /app
 COPY . .
+RUN yarn run build
 
-COPY --chown=node:node . .
-
-USER node
-
-EXPOSE 3000
-
-# start app
-CMD ["npm", "run build"]
+FROM mhart/alpine-node
+RUN yarn global add serve
+WORKDIR /app
+COPY --from=builder /app/build .
+CMD ["serve", "-p", "80", "-s", "."]
