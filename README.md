@@ -1,2 +1,2 @@
-# react-blog
+# BLOG
 Personal blog base code
