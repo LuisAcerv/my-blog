@@ -1,11 +1,16 @@
-FROM mhart/alpine-node:11 AS builder
-WORKDIR /app
-COPY . .
-RUN npm install
+### STAGE 1: Build ###
+FROM node:9.11.1 as build
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+COPY package.json /usr/src/app/package.json
+RUN npm install --silent
+RUN npm install react-scripts -g --silent
+COPY . /usr/src/app
 RUN npm run build
 
-FROM mhart/alpine-node
-RUN npm install --save serve
-WORKDIR /app
-COPY --from=builder /app/build .
-CMD ["serve", "-p", "80", "-s", "."]
+### STAGE 2: Production Environment ###
+FROM nginx:1.13.12-alpine
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
