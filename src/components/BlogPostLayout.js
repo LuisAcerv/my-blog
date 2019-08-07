@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useCurrentRoute, useView } from "react-navi";
 import { MDXProvider } from "@mdx-js/react";
+import { TwitterFollowButton } from "react-twitter-embed";
 import siteMetadata from "../siteMetadata";
 import ArticleMeta from "./ArticleMeta";
 import ArticleSocial from "./ArticleSocial";
@@ -40,9 +41,12 @@ function BlogPostLayout({ blogRoot }) {
         >
           <MDXComponent />
         </MDXProvider>
+
         <footer className={styles.footer}>
           <h3 className={styles.title}>
             <Link href={blogRoot}>{siteMetadata.title}</Link>
+            <br />
+            <TwitterFollowButton screenName={"luis_acervantes"} />
           </h3>
           <Bio className={styles.bio} />
           <section className={styles.links}>
