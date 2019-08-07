@@ -6,7 +6,7 @@ export default ({ meta, title }) => {
   const url = window.location;
   const shareText = `${title}... #${meta.tags[0]} #${meta.tags[1]}  - ${
     window.location
-  }`;
+  } by @luis_acervantes`;
 
   return (
     <div>
